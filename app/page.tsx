@@ -1,101 +1,97 @@
-import Image from "next/image";
+import Link from 'next/link';
+import styles from '../styles/about.module.css';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    return (
+        <div>
+            <nav className={`${styles.navbar} ${styles.glass}` }>
+                <h1 className={styles.logo}>ADVENTURE</h1>
+                <ul className={styles.navLinks}>
+                    <li><Link href="#home" id="pri" className={styles.cirBorder}>Home</Link></li>
+                    <li><Link href="#events"  id="sec" className={styles.cirBorder}>Tours</Link></li>
+                    <li><Link href="#explore" id="tri" className={styles.cirBorder}>Explore</Link></li>
+                    <li><Link href="#about" id="quad" className={styles.cirBorder}>About</Link></li>
+                    <li><Link href="#contribution" id="quint" className={styles.cirBorder}>Contributions</Link></li>
+                    <li><Link href="#contact" className={styles.ctn}>Contact</Link></li>
+                </ul>
+                {/* <img className={`${styles.menuBtn} ${styles.img}`} src="/img/menu-btn.png" alt='' /> */}
+            </nav>
+            <header className={styles.home} id="home">
+                <div className={styles.headerContent}>
+                    <h2 className={styles.headerContentH2}>Explore the colourful World</h2>
+                    <div className={styles.line}></div>
+                    <h1 className={styles.headerContentH1}>A WONDERFUL GIFT</h1>
+                    <Link href="#" className={styles.ctn}>Learn more</Link>
+                </div>
+            </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <section className={`${styles.events} ${styles.section}`} id="events">
+                <div className={styles.container}>
+                    <div className={styles.title}>
+                        <h1 className={`${styles.fontColor} ${styles.headerContentH1} `}>Upcoming Events</h1>
+                        <div className={styles.line}></div>
+                    </div>
+                    <div className={styles.row}>
+                        <article className={`${styles.card} ${styles.col}`}>
+                            <img className={styles.img} src="/img/img1.jfif" alt='' />
+                            <h4 className={styles.fontColor}>Everest camp trek</h4>
+                            <p className={styles.fontColor}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus dolor eius cum itaque repellat asperiores.</p>
+                            <Link href="#" className={styles.ctn}>All Details</Link>
+                        </article>
+                        <article className={`${styles.card} ${styles.col}`}>
+                            <img className={styles.img} src="/img/img2.jfif" alt='' />
+                            <h4 className={styles.fontColor}>Walking holidays</h4>
+                            <p className={styles.fontColor}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus dolor eius cum itaque repellat asperiores.</p>
+                            <Link href="#" className={styles.ctn}>All Details</Link>
+                        </article>
+                        <article className={`${styles.card} ${styles.col}`}>
+                            <img className={styles.img} src="/img/img2.jfif" alt='' />
+                            <h4 className={styles.fontColor}>Andaman Beaches</h4>
+                            <p className={styles.fontColor}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus dolor eius cum itaque repellat asperiores.</p>
+                            <Link href="#" className={styles.ctn}>All Details</Link>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section className={`${styles.explore} ${styles.section}`} id="explore">
+                <div className={styles.exploreContent}>
+                    <h1 className={styles.exploreContentH1}>EXPLORE THE WORLD</h1>
+                    <div className={styles.line}></div>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae labore voluptatum fuga id iusto cumque possimus asperiores eligendi quo laboriosam?</p>
+                    <Link href="#" className={styles.ctn}>Explore more</Link>
+                </div>
+            </section>
+            <section className={`${styles.tours} ${styles.section}`} id="tours">
+                <div className={`${styles.container} ${styles.row}`}>
+                    <div className={`${styles.col} ${styles.contentCol}`}>
+                        <h1 className={`${styles.contentColH1} ${styles.fontColor}`}>UPCOMING TOURS & DESTINATION</h1>
+                        <div className={styles.line}></div>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum, officia! Odio tempore quisquam voluptatibus? Odit laboriosam sunt reprehenderit voluptas ipsa aliquam ea ipsum aperiam corrupti nisi, alias optio perferendis sed?</p>
+                        <Link href="#" className={styles.ctn}>Learn more</Link>
+                    </div>
+                    <div className={styles.imageCol}>
+                        <div className={styles.imageGallery}>
+                            <img className={styles.img} src="/img/img3.png" alt='' />
+                            <img className={styles.img} src="/img/img4.png" alt='' />
+                            <img className={styles.img} src="/img/img5.png" alt='' />
+                            <img className={styles.img} src="/img/img6.png" alt='' />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className={`${styles.section}`} id="about">
+                <div className={styles.title}>
+                    <h1 className={styles.fontColor}>About Us</h1>
+                    <div className={styles.line}></div>
+                </div>
+                <div id="about_us">
+                    <div className={styles.boxx}>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi asperiores deleniti dolor, provident veritatis libero quo voluptatibus repellat nostrum, accusantium expedita assumenda placeat? Fugit, magni aliquid eaque dolorum dolore, deleniti ea molestiae ducimus atque doloribus ipsam repellendus assumenda ullam tenetur vero perferendis quam corporis, nam dolores distinctio libero esse. Quaerat libero facilis nam, tempore natus optio. Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur incidunt doloribus quaerat placeat harum nesciunt sequi cupiditate. Libero neque voluptatum ea fugit.</p>
+                    </div>
+                </div>
+            </section>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
