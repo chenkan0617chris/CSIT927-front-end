@@ -1,21 +1,12 @@
 import Link from 'next/link';
-import styles from '../styles/about.module.css';
+import styles from '../styles/style.module.css';
+import Header from '@/components/header';
+import Title from '@/components/title';
 
 export default function Home() {
     return (
         <div>
-            <nav className={`${styles.navbar} ${styles.glass}` }>
-                <h1 className={styles.logo}>ADVENTURE</h1>
-                <ul className={styles.navLinks}>
-                    <li><Link href="#home" id="pri" className={styles.cirBorder}>Home</Link></li>
-                    <li><Link href="#events"  id="sec" className={styles.cirBorder}>Tours</Link></li>
-                    <li><Link href="#explore" id="tri" className={styles.cirBorder}>Explore</Link></li>
-                    <li><Link href="#about" id="quad" className={styles.cirBorder}>About</Link></li>
-                    <li><Link href="#contribution" id="quint" className={styles.cirBorder}>Contributions</Link></li>
-                    <li><Link href="#contact" className={styles.ctn}>Contact</Link></li>
-                </ul>
-                {/* <img className={`${styles.menuBtn} ${styles.img}`} src="/img/menu-btn.png" alt='' /> */}
-            </nav>
+            <Header></Header>
             <header className={styles.home} id="home">
                 <div className={styles.headerContent}>
                     <h2 className={styles.headerContentH2}>Explore the colourful World</h2>
@@ -28,7 +19,8 @@ export default function Home() {
             <section className={`${styles.events} ${styles.section}`} id="events">
                 <div className={styles.container}>
                     <div className={styles.title}>
-                        <h1 className={`${styles.fontColor} ${styles.headerContentH1} `}>Upcoming Events</h1>
+                        <Title>Upcoming Events</Title>
+                        <h1 className={`${styles.fontColor} ${styles.headerContentH1} `}></h1>
                         <div className={styles.line}></div>
                     </div>
                     <div className={styles.row}>
