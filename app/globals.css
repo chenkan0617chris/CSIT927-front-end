@@ -49,16 +49,6 @@ body {
   }
 }
 
-
-/* Global */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
-}
-
 img {
   max-width: 100%;
   display: block;
@@ -72,25 +62,6 @@ ul {
   list-style: none;
 }
 
-/* span {
-  color: #7c7c7c;
-  padding: 0px 40px;
-} */
-
-/* .active {
-  color: #fc036b;
-  border-radius: 20px;
-  background: whitesmoke;
-  font-weight: bold;
-} */
-
-body,
-html {
-  overflow-x: hidden;
-  box-sizing: border-box;
-}
-
-
 /*scrollbar*/
 
 ::-webkit-scrollbar {
@@ -100,9 +71,4 @@ html {
 ::-webkit-scrollbar-thumb {
   background: gray;
   border-radius: 10px;
-}
-
-body {
-  background-color: black;
-  color: white;
 }

@@ -11,7 +11,8 @@ const Header = () => {
                 <li><Link href="#explore" id="tri" className={styles.cirBorder}>Explore</Link></li>
                 <li><Link href="#about" id="quad" className={styles.cirBorder}>About</Link></li>
                 <li><Link href="#contribution" id="quint" className={styles.cirBorder}>Contributions</Link></li>
-                <li><Link href="#contact" className={styles.ctn}>Contact</Link></li>
+                <li><Link href="/login" className={styles.ctn} style={{ padding: 15 }}>Login</Link></li>
+                <li><Link href="/register" className={styles.ctn} style={{ padding: 15 }}>Register</Link></li>
             </ul>
         </nav>
     )
