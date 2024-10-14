@@ -3,9 +3,9 @@
 import Header from "@/components/header";
 import styles from '../../styles/style.module.css';
 import Title from "@/components/title";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Attraction, getLAM } from "@/service/api";
-import {Button, DatePicker, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure} from "@nextui-org/react";
+import {Button, DatePicker, DateValue, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure} from "@nextui-org/react";
 import { CITY } from "@/constant/constant";
 
 const Page = () => {
@@ -16,6 +16,9 @@ const Page = () => {
 
     const [currentAttraction, setCurrentAttraction] = useState<Attraction>();
 
+    const [date, setDate] = useState<DateValue>();
+    const [person, setPerson] = useState(1);
+
     useEffect(() => {
         (async() => {
             const data = await getLAM();
@@ -24,6 +27,13 @@ const Page = () => {
         })();
     }, []);
 
+
+    useEffect(() => {
+        console.log(date);
+        console.log(person);
+
+    }, [date, person]);
+
     function book(item: Attraction) {
         setCurrentAttraction(item);
         onOpen();
@@ -31,6 +41,20 @@ const Page = () => {
 
     function onReserve(e: any){
         console.log(e);
+    }
+
+    function handlePersonChange(e: ChangeEvent<HTMLInputElement>){
+        setPerson(Number(e.target.value));
+    }
+
+    function handleCloseModal(onClose: any){
+        init();
+        onClose();
+    }
+
+    function init(){
+        setPerson(1);
+        setDate(undefined);
     }
 
     return <div className={styles.home} style={{ alignItems: 'center', backgroundImage: `url('/img/bg2.png')` }}>
@@ -78,20 +102,23 @@ const Page = () => {
                         <ModalBody>
                             <h3>Your Attraction: <b>{currentAttraction?.name}</b></h3>
                             <h3>Price: ${currentAttraction?.price}</h3>
-                            <DatePicker fullWidth labelPlacement="outside" label="Booking Date" className="max-w-[284px]" isRequired />
+                            <DatePicker value={date} onChange={setDate} fullWidth labelPlacement="outside" label="Booking Date" className="max-w-[284px]" isRequired />
 
                             <Input
                                 type="number"
                                 label="Person"
                                 placeholder="0"
                                 labelPlacement="outside"
-                                
+                                required
                                 width={200}
+                                value={String(person)}
+                                onChange={handlePersonChange}
+                                
                             />
 
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="danger" variant="flat" onPress={onClose}>
+                            <Button color="danger" variant="flat" onPress={() => handleCloseModal(onClose)}>
                             Cancel
                             </Button>
                             <Button color="primary" onPress={onReserve}>

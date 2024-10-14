@@ -57,7 +57,7 @@ export default function Home() {
             <section className={`${styles.tours} ${styles.section}`} id="tours">
                 <div className={`${styles.container} ${styles.row}`}>
                     <div className={`${styles.col} ${styles.contentCol}`}>
-                        <h1 className={`${styles.contentColH1} ${styles.fontColor}`}>UPCOMING TOURS & DESTINATION</h1>
+                        <h1 className={`${styles.contentColH1} ${styles.fontColor}`} style={{ color: 'black' }}>UPCOMING TOURS & DESTINATION</h1>
                         <div className={styles.line}></div>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum, officia! Odio tempore quisquam voluptatibus? Odit laboriosam sunt reprehenderit voluptas ipsa aliquam ea ipsum aperiam corrupti nisi, alias optio perferendis sed?</p>
                         <Link href="#" className={styles.ctn}>Learn more</Link>
@@ -75,7 +75,7 @@ export default function Home() {
 
             <section className={`${styles.section}`} id="about">
                 <div className={styles.title}>
-                    <h1 className={styles.fontColor}>About Us</h1>
+                    <h1 className={styles.fontColor} style={{ color: 'black' }}>About Us</h1>
                     <div className={styles.line}></div>
                 </div>
                 <div id="about_us">
