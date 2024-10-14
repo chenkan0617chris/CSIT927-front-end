@@ -758,3 +758,7 @@ textarea {
     text-align: justify;
   }
 }
+
+.settingsForm .div{
+  margin: 10
+}

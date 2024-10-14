@@ -17,7 +17,6 @@ const Page = () => {
     const [currentHotel, setCurrentHotel] = useState<Attraction>();
     const [currentRoom, setCurrentRoom] = useState<string>();
 
-
     const [date, setDate] = useState<DateValue>();
     const [person, setPerson] = useState(1);
 
@@ -42,6 +41,8 @@ const Page = () => {
     }
 
     function onReserve(e: any){
+        onOpenChange();
+        alert('Booking successfully');
         console.log(e);
     }
 
@@ -154,7 +155,6 @@ const Page = () => {
         )
     }
 
-    
 
     return <div className={styles.home} style={{ alignItems: 'center', backgroundImage: `url('/img/hotel.jpg')`, height: '100%', minHeight: '100vh' }}>
             <Header></Header>
