@@ -6,6 +6,12 @@ import styles from './styles.module.css';
 import {Input} from "@nextui-org/input";
 import {Button} from "@nextui-org/button";
 import { FormEvent } from "react";
+import { login } from "@/service/api";
+
+interface loginType {
+    [email:string]: string;
+    password: string;
+}
 
 export default function Page() {
 
@@ -14,14 +20,22 @@ export default function Page() {
         console.log(event);
         const formData = new FormData(event.currentTarget)
 
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            body: formData,
+        const formObject = {} as loginType;
+        formData.forEach((value, key) => {
+            if(typeof value === 'string'){
+                formObject[key] = value;
+            }
           });
 
-        const data = await response.json()
-        return data;
-        
+        const response = await login(formObject);
+
+        if(response.code === 200){
+            alert(response.message);
+            localStorage.setItem('userInfo', JSON.stringify(response.data));
+            window.location.href = '/'; // Redirect to home page after successful registration
+        } else {
+            alert(response.message);
+        }
     }
 
     return (

@@ -1,46 +1,70 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import Header from "@/components/header";
+import Header, { userInfoType } from "@/components/header";
 import styles from '../../styles/style.module.css';
 import Title from "@/components/title";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Attraction, getLAM } from "@/service/api";
+import { bookHotel, listHotels } from "@/service/api";
 import {Button, DatePicker, DateValue, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure} from "@nextui-org/react";
-import { CITY, ROOM_TYPE } from "@/constant/constant";
+import { attractionImg, CITY, cityType, ROOM_TYPE } from "@/constant/constant";
+
+export interface hotelType{
+    id: number;
+    hotelName: string;
+    hotelDescription: string;
+    singleRoomPrice: number;
+    doubleRoomPrice: number;
+    suiteRoomPrice: number;
+    cityId: number;
+    cityName: string;
+}
 
 const Page = () => {
 
-    const [list, setList] = useState<Attraction[]>();
+    const [list, setList] = useState<hotelType[]>();
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [city, setCity] = useState<string>('');
 
-    const [currentHotel, setCurrentHotel] = useState<Attraction>();
-    const [currentRoom, setCurrentRoom] = useState<string>();
+    const [currentHotel, setCurrentHotel] = useState<hotelType>({} as hotelType);
+    const [currentRoom, setCurrentRoom] = useState<string>(ROOM_TYPE[0]);
 
-    const [date, setDate] = useState<DateValue>();
+    const [startDate, setStartDate] = useState<DateValue>();
+    const [endDate, setEndDate] = useState<DateValue>();
     const [person, setPerson] = useState(1);
+    const [userInfo, setUserInfo] = useState<userInfoType>()
 
     useEffect(() => {
         (async() => {
-            const data = await getLAM();
-            setList(data);
-
+            const newList = await listHotels(CITY[0].id);
+            console.log(newList);
+            setList(newList);
+            const newUserInfo = localStorage.getItem('userInfo');
+            if(!newUserInfo)return;
+            setUserInfo(JSON.parse(newUserInfo));
         })();
     }, []);
-
-
-    useEffect(() => {
-        console.log(date);
-        console.log(person);
-
-    }, [date, person]);
 
     function book(item: string) {
         setCurrentRoom(item);
         onOpen();
     }
 
-    function onReserve(e: any){
+    async function onReserve(e: any){
+        if(Object.keys(currentHotel).length === 0)return;
+        const data = {
+            hotelId: currentHotel?.id,
+            roomType: currentRoom,
+            checkinDate: `${startDate?.year}-${startDate?.month}-${startDate?.day}`,
+            checkoutDate: `${endDate?.year}-${endDate?.month}-${endDate?.day}`,
+            numberOfRooms: person,
+            pricePerRoom: priceRoom(currentRoom),
+            totalPrice: priceRoom(currentRoom) * person,
+            userId: userInfo?.id
+        }
+        const res = await bookHotel(data);
+        console.log(res);
+        
         onOpenChange();
         alert('Booking successfully');
         console.log(e);
@@ -57,7 +81,8 @@ const Page = () => {
 
     function init(){
         setPerson(1);
-        setDate(undefined);
+        setStartDate(undefined);
+        setEndDate(undefined);
     }
 
     function renderModal(){
@@ -71,11 +96,11 @@ const Page = () => {
                 <>
                 <ModalHeader className="flex flex-col gap-1">Reservation</ModalHeader>
                 <ModalBody>
-                    <h3>Your Hotel: <b>{currentHotel?.name}</b></h3>
+                    <h3>Your Hotel: <b>{currentHotel?.hotelName}</b></h3>
                     <h3>Your Room Type: <b>{currentRoom}</b></h3>
-                    <h3>Price: ${currentHotel?.price}</h3>
-                    <DatePicker value={date} onChange={setDate} fullWidth labelPlacement="outside" label="Booking Date" className="max-w-[284px]" isRequired />
-
+                    <h3>Price: ${priceRoom(currentRoom)}</h3>
+                    <DatePicker value={startDate} onChange={setStartDate} fullWidth labelPlacement="outside" label="Start Date" className="max-w-[284px]" isRequired />
+                    <DatePicker value={endDate} onChange={setEndDate} fullWidth labelPlacement="outside" label="End Date" className="max-w-[284px]" isRequired />
                     <Input
                         type="number"
                         label="Person"
@@ -85,9 +110,11 @@ const Page = () => {
                         width={200}
                         value={String(person)}
                         onChange={handlePersonChange}
-                        
                     />
-
+                    <h3>FirstName: {userInfo?.firstName}</h3>
+                    <h3>LastName: {userInfo?.lastName}</h3>
+                    <h3>Email: {userInfo?.email}</h3>
+                    <h3>Total Price: ${priceRoom(currentRoom) * person}</h3>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="danger" variant="flat" onPress={() => handleCloseModal(onClose)}>
@@ -104,15 +131,15 @@ const Page = () => {
     }
 
 
-    function renderHotelItem(item: Attraction, index: number){
+    function renderHotelItem(item: hotelType, index: number){
         return (
             <div key={index} className={`${styles.card}`} style={{ display:'flex', flexDirection: 'row', 
             justifyContent: 'space-between', width: 1000, margin: 16, background: '#1b1b1b', padding: 24, borderRadius: 8, opacity: .8 }}>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <img className={styles.img} style={{width: 300}} src={item.img} alt='' />
+                    <img className={styles.img} style={{width: 300}} src={attractionImg[index]} alt='' />
                     <div style={{ margin: 8 }}>
-                        <h2 className={styles.fontColor} style={{ fontSize: 32, textAlign: 'left' }}>{item.name}</h2>
-                        <p className={styles.fontColor}>{item.description}</p>
+                        <h2 className={styles.fontColor} style={{ fontSize: 32, textAlign: 'left' }}>{item.hotelName}</h2>
+                        <p className={styles.fontColor}>{item.hotelDescription}</p>
                     </div>
                 </div>
                 <button onClick={() => setCurrentHotel(item)} className={styles.ctn} style={{ height: 60, alignSelf: 'center' }}>View</button>
@@ -120,7 +147,21 @@ const Page = () => {
         )
     }
 
+    const priceRoom = (item: string) => {
+        switch(item) {
+            case ROOM_TYPE[0]:
+                return currentHotel?.singleRoomPrice;
+            case ROOM_TYPE[1]:
+                return currentHotel?.doubleRoomPrice;
+            case ROOM_TYPE[2]:
+                return currentHotel?.suiteRoomPrice;
+            default:
+                return currentHotel?.singleRoomPrice;
+        }
+    }
+
     function renderRoomItem(item: string, index: number){
+        
         return (
             <div key={index} className={`${styles.card}`} style={{ display:'flex', flexDirection: 'row', 
             justifyContent: 'space-between', width: 1000, margin: 16, background: '#1b1b1b', padding: 24, borderRadius: 8, opacity: .8 }}>
@@ -128,7 +169,8 @@ const Page = () => {
                     {/* <img className={styles.img} style={{width: 300}} src={item.img} alt='' /> */}
                     <div style={{ margin: 8 }}>
                         <h2 className={styles.fontColor} style={{ fontSize: 32, textAlign: 'left' }}>{item}</h2>
-                        {/* <p className={styles.fontColor}>{item?.description}</p> */}
+                        <h3 style={{ color: '#ffffff' }}>Single Room: ${priceRoom(item)}</h3>
+                        
                     </div>
                 </div>
                 <button onClick={() => book(item)} className={styles.ctn} style={{ height: 60, alignSelf: 'center' }}>Book</button>
@@ -137,9 +179,10 @@ const Page = () => {
     }
 
     function content() {
-        if(currentHotel){
+        if(Object.keys(currentHotel).length !== 0){
             return (
                 <div className="flex" style={{ flexDirection: 'column' }}>
+                    <div style={{ marginLeft: 16 }}><Button onClick={() => setCurrentHotel({} as hotelType)}>Back</Button></div>
                     {ROOM_TYPE.map((item: string, index: number) => {
                         return renderRoomItem(item, index);
                     })}
@@ -148,18 +191,24 @@ const Page = () => {
         } 
         return (
             <div className="flex" style={{ flexDirection: 'column' }}>
-                {list?.map((item: Attraction, index: number) => {
+                {list?.map((item: hotelType, index: number) => {
                     return renderHotelItem(item, index);
                 })}
             </div>
         )
     }
 
+    async function handleSearch(){
+        const newList = await listHotels(city);
+        setCurrentHotel({} as hotelType);
+        setList(newList);
+    }
+
 
     return <div className={styles.home} style={{ alignItems: 'center', backgroundImage: `url('/img/hotel.jpg')`, height: '100%', minHeight: '100vh' }}>
             <Header></Header>
             <div className={styles.container} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div className={styles.title}>
+                <div className={styles.title} style={{ marginTop: 60 }}>
                     <Title>Accommodation</Title>
                     <div className={styles.line}></div>
                 </div>
@@ -169,14 +218,15 @@ const Page = () => {
                         className="max-w-xs" 
                         color="primary"
                         style={{ width: 250, marginRight: 16 }}
+                        onChange={(e) => setCity(e.target.value)}
                     >
-                        {CITY.map((city: string) => (
-                        <SelectItem color="primary" key={city}>
-                            {city}
+                        {CITY.map((city: cityType) => (
+                        <SelectItem color="primary" key={city.id}>
+                            {city.cityName}
                         </SelectItem>
                         ))}
                     </Select>
-                    <Button color="primary">Search</Button>
+                    <Button onClick={handleSearch} color="primary">Search</Button>
                 </div>
            
                 {content()}

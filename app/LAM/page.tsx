@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import Header from "@/components/header";
+import Header, { userInfoType } from "@/components/header";
 import styles from '../../styles/style.module.css';
 import Title from "@/components/title";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Attraction, getLAM } from "@/service/api";
+import { Attraction, bookAttractions, listAttractions } from "@/service/api";
 import {Button, DatePicker, DateValue, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure} from "@nextui-org/react";
-import { CITY } from "@/constant/constant";
+import { attractionImg, CITY, cityType } from "@/constant/constant";
 
 const Page = () => {
 
-    const [list, setList] = useState<Attraction[]>();
+    const [list, setList] = useState<Attraction[]>([]);
+    const [city, setCity] = useState<string>('');
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -19,10 +20,16 @@ const Page = () => {
     const [date, setDate] = useState<DateValue>();
     const [person, setPerson] = useState(1);
 
+    const [userInfo, setUserInfo] = useState<userInfoType>()
+
     useEffect(() => {
         (async() => {
-            const data = await getLAM();
-            setList(data);
+            const list = await listAttractions(CITY[0].id);
+            setList(list);
+            setCity(String(CITY[0].id));
+            const newUserInfo = localStorage.getItem('userInfo');
+            if(!newUserInfo)return;
+            setUserInfo(JSON.parse(newUserInfo));
 
         })();
     }, []);
@@ -39,8 +46,24 @@ const Page = () => {
         onOpen();
     }
 
-    function onReserve(e: any){
-        console.log(e);
+    async function onReserve(){
+        if(!currentAttraction)return ;
+        const data = {
+            attractionId: currentAttraction?.id,
+            bookingDate: `${date?.year}-${date?.month}-${date?.day}`,
+            numberOfPeople: person,
+            totalPrice: currentAttraction?.price * person,
+            userId: 5
+        }
+
+        const res = await bookAttractions(data);
+
+        if(res.code === 200){
+            alert('Booked successfully');
+            onOpenChange();
+        } else {
+            alert(res.message);
+        }
     }
 
     function handlePersonChange(e: ChangeEvent<HTMLInputElement>){
@@ -57,6 +80,13 @@ const Page = () => {
         setDate(undefined);
     }
 
+    async function handleSearch() {
+        const list = await listAttractions(city);
+        setList(list);
+
+        console.log(list);
+    }
+
     return <div className={styles.home} style={{ alignItems: 'center', backgroundImage: `url('/img/bg2.png')` }}>
             <Header></Header>
             <div className={styles.container} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -70,26 +100,27 @@ const Page = () => {
                         className="max-w-xs" 
                         color="primary"
                         style={{ width: 250, marginRight: 16 }}
+                        onChange={(e) => setCity(e.target.value)}
                     >
-                        {CITY.map((city: string) => (
-                        <SelectItem color="primary" key={city}>
-                            {city}
-                        </SelectItem>
+                        {CITY.map((city: cityType) => (
+                            <SelectItem color="primary" key={city.id}>
+                                {city.cityName}
+                            </SelectItem>
                         ))}
                     </Select>
-                    <Button color="primary">Search</Button>
+                    <Button onClick={handleSearch} color="primary">Search</Button>
                 </div>
            
-                <div className={styles.row}>
+                {list?.length > 0 && <div className={styles.row}>
                     {list?.map((item: Attraction, index: number) => {
                         return <article key={index} className={`${styles.card} ${styles.col}`}>
-                            <img className={styles.img} src={item.img} alt='' />
-                            <h4 className={styles.fontColor}>{item.name}</h4>
-                            <p className={styles.fontColor}>{item.description}</p>
+                            <img className={styles.img} src={item.img || attractionImg[index]} alt='' />
+                            <h4 className={styles.fontColor}>{item.attractionName}</h4>
+                            <p className={styles.fontColor}>{item.attractionDescription}</p>
                             <button onClick={() => book(item)} className={styles.ctn}>Book</button>
                         </article>
                     })}
-                </div>
+                </div>}
                 <Modal 
                     isOpen={isOpen} 
                     onOpenChange={onOpenChange}
@@ -100,7 +131,7 @@ const Page = () => {
                         <>
                         <ModalHeader className="flex flex-col gap-1">Reservation</ModalHeader>
                         <ModalBody>
-                            <h3>Your Attraction: <b>{currentAttraction?.name}</b></h3>
+                            <h3>Your Attraction: <b>{currentAttraction?.attractionName}</b></h3>
                             <h3>Price: ${currentAttraction?.price}</h3>
                             <DatePicker value={date} onChange={setDate} fullWidth labelPlacement="outside" label="Booking Date" className="max-w-[284px]" isRequired />
 
@@ -115,7 +146,9 @@ const Page = () => {
                                 onChange={handlePersonChange}
                                 
                             />
-
+                            <h3>FirstName: {userInfo?.firstName}</h3>
+                            <h3>LastName: {userInfo?.lastName}</h3>
+                            <h3>Email: {userInfo?.email}</h3>
                         </ModalBody>
                         <ModalFooter>
                             <Button color="danger" variant="flat" onPress={() => handleCloseModal(onClose)}>
