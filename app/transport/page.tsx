@@ -67,13 +67,6 @@ const Page = () => {
         })();
     }, [city]);
 
-
-    useEffect(() => {
-        console.log(date);
-        console.log(person);
-
-    }, [date, person]);
-
     function handleBook(item: any, price: number) {
         setCurrentTransport({
             transport: item,
@@ -239,7 +232,6 @@ const Page = () => {
                         style={{ width: 250, marginRight: 16 }}
                         onChange={(e) => {
                             setFrom(e.target.value)
-                            console.log(e)
                         }}
                     >
                          {stations.map((station: stationType) => (

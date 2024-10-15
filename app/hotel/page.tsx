@@ -37,7 +37,6 @@ const Page = () => {
     useEffect(() => {
         (async() => {
             const newList = await listHotels(CITY[0].id);
-            console.log(newList);
             setList(newList);
             const newUserInfo = localStorage.getItem('userInfo');
             if(!newUserInfo)return;
@@ -50,7 +49,7 @@ const Page = () => {
         onOpen();
     }
 
-    async function onReserve(e: any){
+    async function onReserve(){
         if(Object.keys(currentHotel).length === 0)return;
         const data = {
             hotelId: currentHotel?.id,
@@ -64,10 +63,8 @@ const Page = () => {
         }
         const res = await bookHotel(data);
         console.log(res);
-        
         onOpenChange();
         alert('Booking successfully');
-        console.log(e);
     }
 
     function handlePersonChange(e: ChangeEvent<HTMLInputElement>){

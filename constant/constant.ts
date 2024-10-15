@@ -25,3 +25,5 @@ export const attractionImg = [
     '/img/img2.jfif',
     '/img/img1.jfif',
 ]
+
+export const BOOKING_TYPE = ['attractionBooks', 'rideBookings', 'hotelBookings'];

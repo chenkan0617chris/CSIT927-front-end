@@ -10,54 +10,6 @@ export interface Attraction {
     price: number;
 }
 
-
-// const mockData: Attraction[] = [
-//     {
-//         "id": 1,
-//         "name": 'Wollongong museum',
-//         "description": 'this is test description',
-//         "img": '/img/img1.jfif',
-//         "price": 10
-//     },
-//     {
-//         "id": 2,
-//         "name": 'Art gallery',
-//         "description": 'this is test description',
-//         "img": '/img/img2.jfif',
-//         "price": 10
-//     },
-//     {
-//         "id": 3,
-//         "name": 'Darling harbor',
-//         "description": 'this is test description',
-//         "img": '/img/img2.jfif',
-//         "price": 10
-//     },
-// ];
-
-// export async function getLAM() {
-//     // const res = await fetch('/getLAM');
-
-//     // if(!res.ok){
-//     //     throw new Error('Failed to fetch data');
-//     // }
-
-//     return mockData;
-// }
-
-export async function bookLAM(data: any){
-    console.log(data);
-    //   const res = await fetch('/bookLAM', {
-    //     body: JSON.stringify(data)
-    //   });
-
-    // if(!res.ok){
-    //     throw new Error('Failed to fetch data');
-    // }
-    // return res.json();
-}
-
-
 export async function getCities(){
     let res: any = await fetch('http://localhost:8085/api/lam/getCities');
 
@@ -235,8 +187,41 @@ export async function getBankCard(data: any){
         return null;
     }
     res = await res.json();
+    return res;
+}
+
+export async function saveBankCard(data: any){
+    let res: any = await fetch(`http://localhost:8088/api/pc/saveBankAccount`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+
+    });
+    if(!res){
+        return null;
+    }
+    res = await res.json();
+    return res;
+}
+
+export async function getBookings(data: any){
+    let res: any = await fetch(`http://localhost:8081/api/tic/getRideBookings/${data}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if(!res){
+        return null;
+    }
+    res = await res.json();
     return res.data;
 }
+
+
+
 
 
 

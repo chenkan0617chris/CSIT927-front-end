@@ -34,13 +34,6 @@ const Page = () => {
         })();
     }, []);
 
-
-    useEffect(() => {
-        console.log(date);
-        console.log(person);
-
-    }, [date, person]);
-
     function book(item: Attraction) {
         setCurrentAttraction(item);
         onOpen();
@@ -53,7 +46,7 @@ const Page = () => {
             bookingDate: `${date?.year}-${date?.month}-${date?.day}`,
             numberOfPeople: person,
             totalPrice: currentAttraction?.price * person,
-            userId: 5
+            userId: userInfo?.id
         }
 
         const res = await bookAttractions(data);
@@ -83,8 +76,6 @@ const Page = () => {
     async function handleSearch() {
         const list = await listAttractions(city);
         setList(list);
-
-        console.log(list);
     }
 
     return <div className={styles.home} style={{ alignItems: 'center', backgroundImage: `url('/img/bg2.png')` }}>

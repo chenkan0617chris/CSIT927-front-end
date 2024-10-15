@@ -17,7 +17,6 @@ export default function Page() {
 
     async function loginTest(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log(event);
         const formData = new FormData(event.currentTarget)
 
         const formObject = {} as loginType;

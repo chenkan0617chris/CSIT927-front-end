@@ -30,10 +30,11 @@ const Header = () => {
             <h1 className={styles.logo}>ADVENTURE</h1>
             <ul className={styles.navLinks}>
                 <li><Link href="/" id="pri" className={styles.cirBorder}>Home</Link></li>
-                <li><Link href="/LAM"  id="sec" className={styles.cirBorder}>Local Attractions and Museums</Link></li>
+                <li><Link href="/LAM"  id="sec" className={styles.cirBorder}>Attractions</Link></li>
                 <li><Link href="/hotel" id="tri" className={styles.cirBorder}>Hotel</Link></li>
                 <li><Link href="/transport" id="quad" className={styles.cirBorder}>Transport</Link></li>
                 <li><Link href="/settings" id="quint" className={styles.cirBorder}>Settings</Link></li>
+                {Object.keys(userInfo).length !== 0 && <li><Link href="/myBookings" id="quint" className={styles.cirBorder}>My Bookings</Link></li>}
                 {Object.keys(userInfo).length === 0 && <li><Link href="/login" className={styles.ctn} style={{ padding: 15, borderRadius: 6 }}>Login</Link></li>}
                 {Object.keys(userInfo).length === 0 && <li><Link href="/register" className={styles.ctn} style={{ padding: 15, borderRadius: 6 }}>Register</Link></li>}
                 {Object.keys(userInfo).length !== 0 && <li><Button onClick={() => {
