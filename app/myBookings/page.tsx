@@ -241,11 +241,11 @@ const Page = () => {
                                 setCurrentList(attractionList);
                                 setCurrentCol(attractionBookings_Col);
                             } else if (value === 1) {
-                                setCurrentList(hotelList);
-                                setCurrentCol(hotelBookings_columns);
-                            } else {
                                 setCurrentList(ridingList);
                                 setCurrentCol(riding_columns);
+                            } else {
+                                setCurrentList(hotelList);
+                                setCurrentCol(hotelBookings_columns);
                             }
                         }}
                     >
