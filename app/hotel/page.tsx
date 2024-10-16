@@ -51,11 +51,20 @@ const Page = () => {
 
     async function onReserve(){
         if(Object.keys(currentHotel).length === 0)return;
+        let startDay = String(startDate?.day);
+        let endDay = String(endDate?.day);
+
+        if(startDate && startDate?.day < 10){
+            startDay = '0' + startDay;
+        }
+        if(endDate && endDate?.day < 10){
+            endDay = '0' + endDay;
+        }
         const data = {
             hotelId: currentHotel?.id,
             roomType: currentRoom,
-            checkinDate: `${startDate?.year}-${startDate?.month}-${startDate?.day}`,
-            checkoutDate: `${endDate?.year}-${endDate?.month}-${endDate?.day}`,
+            checkinDate: `${startDate?.year}-${startDate?.month}-${startDay}`,
+            checkoutDate: `${endDate?.year}-${endDate?.month}-${endDay}`,
             numberOfRooms: person,
             pricePerRoom: priceRoom(currentRoom),
             totalPrice: priceRoom(currentRoom) * person,

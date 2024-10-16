@@ -41,9 +41,13 @@ const Page = () => {
 
     async function onReserve(){
         if(!currentAttraction)return ;
+        let day = String(date?.day);
+        if(date && date?.day < 10){
+            day = '0' + day;
+        }
         const data = {
             attractionId: currentAttraction?.id,
-            bookingDate: `${date?.year}-${date?.month}-${date?.day}`,
+            bookingDate: `${date?.year}-${date?.month}-${day}`,
             numberOfPeople: person,
             totalPrice: currentAttraction?.price * person,
             userId: userInfo?.id

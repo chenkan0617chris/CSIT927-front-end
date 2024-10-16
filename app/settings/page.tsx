@@ -68,13 +68,13 @@ const Page = () => {
                 </div>
                 <form className={styles.form} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                     <div style={{ margin: 8, width: 400}}>
-                        <Input value={userInfo?.firstName} type="name" label="Name" placeholder="Enter your Name"/>
+                        <Input value={userInfo?.firstName} type="name" label="firstName" placeholder="Enter your firstName"/>
                     </div>
                     <div style={{ margin: 8, width: 400}}>
-                        <Input value={userInfo?.lastName} type="name" label="Name" placeholder="Enter your Name"/>
+                        <Input value={userInfo?.lastName} type="name" label="lastName" placeholder="Enter your lastName"/>
                     </div>
                     <div style={{ margin: 8, width: 400}}>
-                        <Input value={userInfo?.nickname} type="name" label="Name" placeholder="Enter your Name"/>
+                        <Input value={userInfo?.nickname} type="name" label="nickname" placeholder="Enter your nickname"/>
                     </div>
                     <div style={{ margin: 8, width: 400}}>
                         <Input value={userInfo?.email} type="Email" label="Email" placeholder="Enter your Email"/>

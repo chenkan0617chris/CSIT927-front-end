@@ -27,3 +27,5 @@ export const attractionImg = [
 ]
 
 export const BOOKING_TYPE = ['attractionBooks', 'rideBookings', 'hotelBookings'];
+
+export const LIST_TYPE = ['Attraction Booking', 'Riding Booking', 'Hotel Booking'];

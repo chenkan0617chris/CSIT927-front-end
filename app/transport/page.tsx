@@ -76,6 +76,10 @@ const Page = () => {
     }
 
     async function onReserve(){
+        let day = String(date?.day);
+        if(date && date?.day < 10){
+            day = '0' + day;
+        }
         const data = {
             startStationId: from,
             endStationId: to,
@@ -83,7 +87,7 @@ const Page = () => {
             numberOfPassengers: person,
             price: currentTransport.price,
             totalPrice: currentTransport.price * person,
-            bookingDate: `${date?.year}-${date?.month}-${date?.day}`,
+            bookingDate: `${date?.year}-${date?.month}-${day}`,
             userId: userInfo?.id
         };
 

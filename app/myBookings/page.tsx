@@ -6,7 +6,7 @@ import Title from "@/components/title";
 import { useEffect, useState } from "react";
 import {Select, 
     SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from "@nextui-org/react";
-import { BOOKING_TYPE } from "@/constant/constant";
+import { BOOKING_TYPE, LIST_TYPE } from "@/constant/constant";
 import { getBookings } from "@/service/api";
 
 const attractionBookings_Col = [
@@ -249,7 +249,7 @@ const Page = () => {
                             }
                         }}
                     >
-                        {BOOKING_TYPE.map((type: string, index: number) => (
+                        {LIST_TYPE.map((type: string, index: number) => (
                             <SelectItem color="primary" key={index} value={type}>
                                 {type}
                             </SelectItem>
